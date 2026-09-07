@@ -12,4 +12,29 @@ CREATE TABLE IF NOT EXISTS activity_logs(
     -- Timestamp
     activity_log_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
 
-);
+); 
+
+CREATE TABLE IF NOT EXISTS users(
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    
+    user_email VARCHAR(50)  UNIQUE NOT NULL,
+    user_username VARCHAR(20) UNIQUE NOT NULL,
+    user_password VARCHAR(255) NOT NULL,
+    user_role ENUM('admin', 'user') NOT NULL DEFAULT 'user',
+
+    user_created_at TIMESTAMP
+        DEFAULT CURRENT_TIMESTAMP,
+
+    user_updated_at TIMESTAMP
+        DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        ON UPDATE CURRENT TIMESTAMP
+) ENGINE=InnDB
+DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO users 
+(
+    user_email, 
+    user_username, 
+    user_password, 
+    user_role,
+) VALUES
