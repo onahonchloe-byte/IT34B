@@ -50,3 +50,11 @@ function requireRole($role)
         die('Access denied.');
     }
 }
+function redirect($path){
+    header("Location: " . BASE_URL . $path);
+    exit();
+}
+
+
+
+?>
