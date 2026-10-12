@@ -27,13 +27,13 @@ body {
     justify-content: space-between;
     align-items: center;
 
-    background: linear-gradient(135deg, #0d6efd, #084298);
+    background: linear-gradient(135deg, #4b0386, #944ef086);
     padding: 25px 30px;
     margin-bottom: 25px;
 
     border-radius: 14px;
 
-    box-shadow: 0 8px 20px rgba(13, 110, 253, 0.25);
+    box-shadow: 0 8px 20px rgba(157, 13, 253, 0.452);
 }
 
 .admin-header h1 {

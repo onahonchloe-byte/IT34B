@@ -6,10 +6,10 @@ require_once(__DIR__ . '/../functions/auth.php');
 require_once(__DIR__ . '/../functions/redirect.php');
 
 
-define('BASE_URL', 'http://localhost/IT30B');
+define('BASE_URL', 'http://localhost/IT34B');
 
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'labr_it34b');
+define('DB_NAME', 'libr_it34b');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 
