@@ -1,5 +1,4 @@
 <?php
-// Generate CSRF token
 
 function genarateCsrfToken() {
     if(empty($_SESSION['csrf_token'])) {
@@ -9,20 +8,19 @@ function genarateCsrfToken() {
     return $_SESSION['csrf_token'];
 
 }
-// Verify CSRF token
 
 function verifyCsrfToken($token) {
 
-if(empty($_SESSION['csrf_token'])) || empty($token)
+if (empty($_SESSION['csrf_token']) || empty($token)
     ){
-       return false;
-    }
+    return false;
+}
 
     return hash_equals(
         $_SESSION['csrf_token'], $token
     );
 }
-// Require CSRF token 
+
 function requireCsrfToken(){
     if($_SERVER['REQUEST_METHOD'] !== 'POST'){
         return;
@@ -37,3 +35,5 @@ function requireCsrfToken(){
 
     }
 }
+
+?>
