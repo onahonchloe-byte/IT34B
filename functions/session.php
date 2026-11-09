@@ -1,5 +1,6 @@
 <?php 
 
+// Start User Session
 function startUserSession($pdo)
 {
     if (!isset($_SESSION['user_id'])) {
@@ -100,6 +101,7 @@ function hasActiveUserSession($pdo, $user_id)
 }
 
 
+// Session Timeout
 function checkSessionTimeout()
 {
     global $pdo;

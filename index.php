@@ -6,12 +6,13 @@ if(isset($_SESSION['user_id'])){
     exit;
 }
 
+
 $error='';
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     requireCsrfToken();
-    
+
     $login = trim($_POST['login'] ?? '');
     $password = $_POST['password'] ?? '';
 
@@ -68,14 +69,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
 <form method="POST">
     <label>Username or Email</label>
-
-    <input type="hidden" name="csrf_token" 
-    value="<?= htmlspecialchars(genarateCsrfToken()) ?>">
-
-    <input type="text" 
-           name="login" 
-           required>
-
+    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generateCsrfToken()) ?>" >
+    <input type="text" name="login" required>
     <br>
     <br>
     <label>Password</label>
@@ -93,6 +88,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 <?php if (isset($_GET['timeout'])): ?>
     <p>Your session has expired due to inactivity. Please log in again.</p>
 <?php endif; ?>
+
 
 </body>
 </html>
