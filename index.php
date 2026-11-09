@@ -1,45 +1,32 @@
+
 <?php
 require_once 'config/config.php';
 
-if(isset($_SESSION['user_id'])){
+if (isset($_SESSION['user_id'])) {
     header('Location: ' . BASE_URL . '/app/' . $_SESSION['user_role'] . '/index.php');
     exit;
 }
 
-$error='';
+$error = '';
 
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
-    $login = trim($_POST['login'] ?? '');
-    $password = $_POST['password'] ?? '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $error = 'Invalid login credentials';
-
-    if ($login==='' || $password ===''){
-        
-    
     requireCsrfToken();
 
     $login = trim($_POST['login'] ?? '');
     $password = $_POST['password'] ?? '';
 
-    $error = 'Invalid login credentials';
+    if ($login === '' || $password === '') {
+        $error = 'Invalid login credentials';
 
-    logActivity(
-        $pdo,
-        null,
-        $login,
-        'login',
-        'failed'
-    );
-
+        logActivity($pdo, null, $login, 'login', 'failed');
     } else {
+        $result = loginUser($pdo, $login, $password);
 
-        $result = loginUser($pdo,$login,$password);
-
-        if($result===true){
-            // Log complete login attempt
+        if ($result === true) {
             logActivity(
-                $pdo,$_SESSION['user_id'],
+                $pdo,
+                $_SESSION['user_id'],
                 $_SESSION['user_email'],
                 'login',
                 'success'
@@ -48,20 +35,17 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             header('Location: ' . BASE_URL . '/app/' . $_SESSION['user_role'] . '/index.php');
             exit;
 
-        } elseif ($result === 'active_session'){
-
-            $error = 'This account is already logged in on another device';
+        } elseif ($result === 'active_session') {
+            $error = 'This Account is already logged in on another device';
 
         } else {
-
-            $error = 'Invalid Login Credentials';
+            $error = 'Invalid login credentials';
         }
     }
 }
-
 ?>
 
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -70,27 +54,33 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 </head>
 <body>
 
-<form method="POST">
-    <label>Username or Email</label>
-    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generateCsrfToken()) ?>">
-    <input type="text" name="login" required>
-    <br>
-    <br>
-    <label>Password</label>
-    <input type="password" name="password"required>
-    <br>
-    <button type="submit">Sign In</button>
-</form>
+    <h2>Login</h2>
 
-<?php if ($error !== ''): ?>
-    <p>
-        <?= htmlspecialchars($error) ?>
-    </p>
-<?php endif; ?>
+    <?php if (!empty($error)): ?>
+        <p><?php echo htmlspecialchars($error); ?></p>
+    <?php endif; ?>
 
-<?php if (isset($_GET['timeout'])): ?>
-    <p>Your session has expired due to inactivity. Please log in again.</p>
-<?php endif; ?>
+    <?php if (isset($_GET['timeout'])): ?>
+        <p>Your session has timed out due to inactivity. Please log in again.</p>
+    <?php endif; ?>
+
+    <form method="POST">
+        <label>Username or Email</label>
+
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generateCsrfToken(), ENT_QUOTES, 'UTF-8') ?>">
+
+        <input type="text" name="login" required>
+
+        <br>
+        <br>
+
+        <label>Password</label>
+        <input type="password" name="password" required>
+
+        <br><br>
+
+        <button type="submit">Sign In</button>
+    </form>
 
 </body>
 </html>
